@@ -1,0 +1,202 @@
+.leftMenu {
+    min-width: 400px;
+    height: 100vh;
+    background-color: #202020;
+    color: white;
+    transition: all .5s ease;
+}
+
+.leftMenu.close {
+    min-width: 45px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 100px;
+    width: 400px;
+    z-index: 4;
+    transition: all .5s ease;
+}
+
+.leftMenu.close .sidebar {
+    width: 45px;
+}
+
+.leftMenu .sidebar a span {
+    transition: opacity .5s ease-in-out;
+}
+
+.leftMenu.close .sidebar a span {
+    opacity: 0;
+}
+
+.sidebar .menu-button a {
+    text-decoration: none;
+    color: #fff;
+    padding-left: 10px;
+    font-size: 24px;
+}
+
+.sidebar .nav-links {
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: 0;
+}
+
+.sidebar .nav-links::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar .nav-links li {
+    width: 100%;
+    position: relative;
+    top: 0;
+    /* wyłaczenie tych kropek przy listach ul li */
+    list-style: none;
+    border-bottom: 2px solid #272727;
+    /* Obramowanie między pozycjami listy */
+}
+
+.sidebar .nav-links li:last-child {
+    border-bottom: none;
+}
+
+.sidebar .nav-links li .iocn-link {
+    /* align-items środkuje w pionie ale wymaga display: flex */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* --- */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sidebar .nav-links li a i {
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    font-size: 20px;
+}
+
+.sidebar .nav-links li .iocn-link div i::before {
+    transition: transform .3s ease-in-out;
+    transition: opacity .5s ease-in-out;
+    cursor: pointer;
+}
+
+.sidebar .nav-links li.show-submenu .iocn-link div i::before {
+    transform: rotate(-180deg);
+}
+
+.leftMenu.close .sidebar .nav-links li .iocn-link div i::before {
+    opacity: 0;
+}
+
+.leftMenu.close .sidebar .nav-links li.show-submenu .iocn-link div i::before {
+    transform: rotate(0);
+}
+
+.sidebar .nav-links li a {
+    text-decoration: none;
+    width: auto;
+    display: flex;
+    transition: all 0.4s ease;
+    /* efekt najechania kursorem będzie płynny */
+}
+
+.sidebar .nav-links li .iocn-link:hover {
+    background: #272727;
+}
+
+.sidebar .nav-links li a .link_name {
+    /* align-items środkuje w pionie ale wymaga display: flex */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* --- */
+    padding-left: 10px;
+    font-size: 20px;
+    height: 50px;
+    width: 100%;
+    color: #fff;
+}
+
+
+/* ----------------------------sub-menu-------------------------------------*/
+
+
+/* sidebar close */
+
+.sidebar .nav-links li .sub-menu {
+    display: none;
+}
+
+.sidebar .nav-links li.show-submenu .sub-menu {
+    display: block;
+}
+
+.leftMenu.close .sidebar .nav-links li .sub-menu {
+    display: block;
+}
+
+.leftMenu.close .sidebar .nav-links li .sub-menu {
+    position: absolute;
+    left: 45px;
+    top: 0;
+    margin-top: 0;
+    padding: 10px 20px;
+    border-radius: 0 8px 8px 0;
+    background: #202020;
+    /*-*/
+    transition: all 0.4s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.leftMenu.close .sidebar .nav-links li:hover .sub-menu {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sidebar .nav-links li .sub-menu li {
+    border-bottom: none;
+}
+
+.sidebar .nav-links li .sub-menu.close {
+    display: none;
+}
+
+.sidebar .nav-links li .sub-menu li a {
+    /* align-items środkuje w pionie ale wymaga display: flex */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /*-----*/
+    font-size: 18px;
+    height: 30px;
+    white-space: nowrap;
+    /* ta opcja sprawia że tekst nie będzie zawijany tylko rodzic rozciągany */
+    opacity: 0.6;
+    transition: all 0.3 ease;
+}
+
+.sidebar .nav-links li .sub-menu li a:hover {
+    opacity: 1;
+    background: #202020;
+}
+
+.sidebar .nav-links li .sub-menu .link_name {
+    display: none
+}
+
+
+/* sidebar close */
+
+.leftMenu.close .sidebar .nav-links li .sub-menu .link_name {
+    display: block;
+    font-size: 20px;
+    height: 40px;
+    opacity: 1;
+}

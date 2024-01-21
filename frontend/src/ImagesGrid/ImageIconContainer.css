@@ -1,0 +1,114 @@
+.gallery-container .grid-item {
+    flex-grow: 1;
+    margin: 4px;
+    height: 200px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    /* Ukrywa treść, która wychodzi poza obszar .grid-item */
+    transition: border 0.3s, transform 0.3s;
+}
+
+.gallery-container .grid-item img {
+    height: 200px;
+    max-width: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+    display: block;
+    /* Dodaj display: block, aby uniknąć białego miejsca pod obrazkiem */
+}
+
+.gallery-container .grid-item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Przyciemnienie koloru tła, możesz dostosować przez zmianę wartości rgba */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s;
+}
+
+.gallery-container .overlay-titleText {
+    position: absolute;
+    bottom: 10px;
+    width: 80%;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.gallery-container .overlay-checkIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: opacity 0.2s ease-in-out, transform 0.2s;
+}
+
+.gallery-container .overlay-checkIcon .icon-ok-squared {
+    display: none;
+}
+
+.gallery-container .grid-item.selected .icon-ok-squared {
+    display: block;
+}
+
+.gallery-container .overlay-checkIcon:hover {
+    transform: scale(1.2);
+}
+
+.gallery-container .grid-item.selected .icon-check-empty {
+    display: none;
+}
+
+.gallery-container .overlay-resizeIcon {
+    transform: scale(0.9);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: opacity 0.2s ease-in-out, transform 0.2s;
+}
+
+.gallery-container .overlay-resizeIcon:hover {
+    transform: scale(1.1);
+}
+
+.gallery-container .grid-item:hover .overlay {
+    opacity: 1;
+    /* Pokaż overlay (przyciemnienie) po najechaniu myszką */
+}
+
+.gallery-container .grid-item.selected {
+    /* Ciemnoniebieskie obramowanie */
+}
+
+.gallery-container .grid-item.selected img {
+    transform: scale(0.97);
+    /* Pomniejszenie obrazka */
+    box-sizing: border-box;
+    outline: 4px solid #0080ff;
+    border-radius: 8px;
+    /* Dodaj zaokrąglone brzegi */
+    /* Zastosuj box-sizing: border-box do uwzględnienia obramowania w rozmiarze */
+}
+
+.gallery-container .grid-item.selected .overlay {
+    opacity: 1;
+    transform: scale(0.97);
+    border-radius: 8px;
+}

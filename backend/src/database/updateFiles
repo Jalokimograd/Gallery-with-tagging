@@ -1,0 +1,73 @@
+const fs = require("fs");
+const path = require("path");
+const Directory = require("../models/directory");
+const File = require("../models/file");
+
+async function readDirectoriesAndCreateOrUpdateFiles() {
+  try {
+    var updated_files_num = 0;
+    var added_files_num = 0;
+    // Pobierz wszystkie katalogi z bazy danych
+    const directories = await Directory.query().where("track_changes", 1);
+
+    // Przejdź przez każdy katalog
+    for (const directory of directories) {
+      const directoryPath = directory.path;
+
+      // Odczytaj pliki z katalogu
+      const filesInDirectory = fs.readdirSync(directoryPath);
+
+      // Przejdź przez każdy plik
+      for (const fileName of filesInDirectory) {
+        const filePath = path.join(directoryPath, fileName);
+
+        // Sprawdź, czy plik o danej nazwie już istnieje w bazie danych
+        const existingFile = await File.query()
+          .where({
+            name: fileName,
+            directory_id: directory.id,
+          })
+          .first();
+
+        const fileStats = fs.statSync(filePath);
+        // Jeśli plik istnieje, zaktualizuj niektóre pola
+        if (existingFile) {
+          await File.query()
+            .findById(existingFile.id)
+            .patch({
+              file_format: path.extname(fileName),
+              size: fileStats.size,
+              modification_date: fileStats.mtime,
+              change_date: fileStats.ctime,
+              access_time: fileStats.atime,
+              creation_date: fileStats.birthtime,
+            });
+          updated_files_num++;
+          console.log(`File updated: ${existingFile.name}`);
+        } else {
+          // Jeśli plik nie istnieje, utwórz nową encję File
+          const newFile = await File.query().insert({
+            name: fileName,
+            file_format: path.extname(fileName),
+            size: fileStats.size,
+            modification_date: fileStats.mtime,
+            change_date: fileStats.ctime,
+            access_time: fileStats.atime,
+            creation_date: fileStats.birthtime,
+            directory_id: directory.id,
+          });
+          added_files_num++;
+          console.log(`File created: ${newFile.name}`);
+        }
+      }
+    }
+
+    console.log("Files creation and update completed.");
+  } catch (error) {
+    console.error("Error creating and updating files:", error);
+  }
+
+  return [updated_files_num, added_files_num];
+}
+
+module.exports = readDirectoriesAndCreateOrUpdateFiles;
