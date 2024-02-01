@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./NavigationBarContainer.css";
 
-import SearchBarContainer from "./SearchBarContainer.js";
+import SearchBarContainer from "./SearchBarContainer.jsx";
 
 class NavigationBarContainer extends Component {
   constructor(props) {

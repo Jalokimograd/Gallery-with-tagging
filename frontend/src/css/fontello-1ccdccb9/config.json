@@ -203,6 +203,18 @@
       "css": "check-empty",
       "code": 61590,
       "src": "fontawesome"
+    },
+    {
+      "uid": "86ee1fc7ff57e9c9c60d8a5e57183776",
+      "css": "user",
+      "code": 59412,
+      "src": "iconic"
+    },
+    {
+      "uid": "8beac4a5fd5bed9f82ca7a96cc8ba218",
+      "css": "key",
+      "code": 59413,
+      "src": "entypo"
     }
   ]
 }

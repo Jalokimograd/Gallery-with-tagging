@@ -1,0 +1,11 @@
+.mainMiddleContainer {
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.rightMiddleContainer {
+    position: relative;
+    top: 100px;
+    width: auto;
+}

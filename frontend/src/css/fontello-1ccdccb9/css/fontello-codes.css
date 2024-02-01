@@ -19,6 +19,8 @@
 .icon-resize-full-1:before { content: '\e811'; } /* '' */
 .icon-resize-small-1:before { content: '\e812'; } /* '' */
 .icon-cancel-squared:before { content: '\e813'; } /* '' */
+.icon-user:before { content: '\e814'; } /* '' */
+.icon-key:before { content: '\e815'; } /* '' */
 .icon-spin6:before { content: '\e839'; } /* '' */
 .icon-check-empty:before { content: '\f096'; } /* '' */
 .icon-filter:before { content: '\f0b0'; } /* '' */
