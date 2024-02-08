@@ -1,48 +1,46 @@
 import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./routes/login_page";
+import LogoutPageContainer from "./routes/logout_page";
 import Root from "./routes/root";
 import Gallery from "./routes/gallery";
 import Directories from "./routes/directories";
 import Categories from "./routes/categories";
+import ErrorPage from "./routes/error-page";
 
-import AuthContext, { AuthProvider } from "./AuthProvider";
-import ErrorPage from "./error-page";
+import RequireAuth from "./requireAuth";
 
-const router = createBrowserRouter([
-  {
-    path: "login",
-    element: <LoginPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/",
-    element: <Root />,
-    errorElement: <ErrorPage />,
-    children: [
-      { index: true, element: <Gallery /> },
-      {
-        path: "categories",
-        element: <Categories />,
-      },
-      {
-        path: "directories",
-        element: <Directories />,
-      },
-    ],
-  },
-]);
+import { AuthProvider } from "./hooks/useAuth";
 
 const App = () => {
-  const { auth } = useContext(AuthContext);
-
-  console.log(auth);
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route
+              path="/login"
+              element={<LoginPage />}
+              errorElement={<ErrorPage />}
+            />
+            <Route
+              path="/logout"
+              element={<LogoutPageContainer />}
+              errorElement={<ErrorPage />}
+            />
+            <Route element={<RequireAuth />}>
+              <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+                <Route index element={<Gallery />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/directories" element={<Directories />} />
+              </Route>
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
     </React.StrictMode>
   );
 };

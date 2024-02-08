@@ -215,6 +215,12 @@
       "css": "key",
       "code": 59413,
       "src": "entypo"
+    },
+    {
+      "uid": "74b2f1d1ee541715b3f389f7cdf63d1c",
+      "css": "logout",
+      "code": 59414,
+      "src": "websymbols"
     }
   ]
 }

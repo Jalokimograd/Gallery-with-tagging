@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import "./LeftMenuContainer.css";
 import "./../css/fontello-1ccdccb9/css/fontello.css";
-import SelectedImagesContainer from "./SelectedImagesContainer";
-import DirectoriesContainer from "./DirectoriesContainer";
-import CategoriesContainer from "./CategoriesContainer";
+
+import { useAuth } from "../hooks/useAuth";
 
 class LeftMenuContainer extends Component {
   constructor(props) {
@@ -14,57 +13,9 @@ class LeftMenuContainer extends Component {
       directoriesList: [],
     };
 
-    this.Menus = {
-      1: {
-        title: "Selected Images",
-        onClick: () => {
-          this.setState({ activeMenu: 1 });
-        },
-        content: SelectedImagesContainer,
-        icon_class: "icon-picture",
-        data: () => ({
-          elements: [],
-        }),
-      },
-      2: {
-        title: "Directories",
-        onClick: () => {
-          this.fetchData(`http://localhost:9000/api/getDirectories`).then(
-            (data) => {
-              this.setState({
-                activeMenu: 2,
-                directoriesList: data["directories"],
-              });
-            }
-          );
-        },
-        content: DirectoriesContainer,
-        icon_class: "icon-folder-open",
-        data: () => ({
-          elements: this.state.directoriesList,
-        }),
-      },
-      3: {
-        title: "Categories",
-        onClick: () => {
-          this.fetchData(`http://localhost:9000/api/getCategories`).then(
-            (data) => {
-              this.setState({
-                activeMenu: 3,
-                categoriesList: data["categories"],
-              });
-            }
-          );
-        },
-        content: CategoriesContainer,
-        icon_class: "icon-hashtag",
-        data: () => ({
-          elements: this.state.categoriesList,
-        }),
-      },
-    };
-
     this.fetchData = this.fetchData.bind(this);
+    this.logoutButtonClick = this.logoutButtonClick.bind(this);
+    const { logout } = useAuth();
   }
 
   fetchData = async (link) => {
@@ -85,23 +36,19 @@ class LeftMenuContainer extends Component {
     });
   }
 
+  logoutButtonClick = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   render() {
     var visibility = "hide";
     if (this.props.menuVisibility) {
       visibility = "show";
     }
-
-    var options = Object.entries(this.Menus).map(([key, value]) => (
-      <li key={key}>
-        <div className="iocn-link">
-          <a href="#">
-            <i className={value["icon_class"]}></i>
-            <span className="link_name">{value["title"]}</span>
-          </a>
-          <i className="icon-down-open"></i>
-        </div>
-      </li>
-    ));
 
     var arrow_button = (
       <div
@@ -119,9 +66,6 @@ class LeftMenuContainer extends Component {
         <i className="icon-down-open"></i>
       </div>
     );
-
-    const ActiveContent = this.Menus[this.state.activeMenu].content;
-    const contentProps = this.Menus[this.state.activeMenu].data();
 
     return (
       <div className="leftMenu">
@@ -215,10 +159,15 @@ class LeftMenuContainer extends Component {
                 </li>
               </ul>
             </li>
+            <li key={4}>
+              <div className="iocn-link">
+                <a href="#" onClick={this.logoutButtonClick}>
+                  <i className="icon-logout"></i>
+                  <span className="link_name">Logout</span>
+                </a>
+              </div>
+            </li>
           </ul>
-        </div>
-        <div className="leftMenuContent">
-          <ActiveContent {...contentProps} />
         </div>
       </div>
     );

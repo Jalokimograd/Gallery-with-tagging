@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import AuthContext from "../AuthProvider";
+import { useRef, useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 import axios from "../API/axios";
 
@@ -14,7 +15,9 @@ Trochę inaczej wygląda dobieranie się do zmiannych stanu.
 Wersję klasową mamy w SearchBarContainer.jsx
 */
 const LoginPageContainer = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
 
   // Refy
   const userRef = useRef();
@@ -30,11 +33,11 @@ const LoginPageContainer = () => {
 
   useEffect(() => {
     userRef.current.focus();
-  }, []);
+  }, []); // to wykona się tylko raz niczym "componentDidMount"
 
   useEffect(() => {
     setErrMsg("");
-  }, [user, pwd]);
+  }, [user, pwd]); // wywołane po zmianie user lub pwd
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,15 +51,15 @@ const LoginPageContainer = () => {
           // withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
       const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
+      const role = response?.data?.roles;
 
-      setAuth({ user, pwd, roles, accessToken });
+      await login({ user, role, accessToken });
       setUser("");
       setPwd("");
       setSuccess(true);
+
+      navigate("/");
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");

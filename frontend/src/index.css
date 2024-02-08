@@ -12,13 +12,3 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-.mainMiddleContainer {
-    display: flex;
-    overflow: hidden;
-    justify-content: space-between;
-}
-
-.rightMiddleContainer {
-    width: auto;
-}
